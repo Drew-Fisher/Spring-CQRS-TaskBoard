@@ -2,9 +2,7 @@ package io.taskboard.TaskBoard.command.features.publishcommand;
 
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.Value;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -15,6 +13,6 @@ public class ICommandPublisher {
     }
 
     public interface Publisher{
-        public<T extends Command,S> CompletableFuture<S> Publish(T command);
+        public<T extends Command,S> CompletableFuture<S> publish(T command);
     }
 }

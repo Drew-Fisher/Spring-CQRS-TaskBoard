@@ -15,7 +15,7 @@ public class AxonCommandPublisher implements ICommandPublisher.Publisher{
     }
 
     @Override
-    public <T extends ICommandPublisher.Command, S> CompletableFuture<S> Publish(T command) {
+    public <T extends ICommandPublisher.Command, S> CompletableFuture<S> publish(T command) {
         return commandGateway.send(command);
     }
 }

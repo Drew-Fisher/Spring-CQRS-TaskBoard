@@ -19,7 +19,7 @@ public class TaskDataFetcher {
     @DgsMutation(field = "testCreate")
     public CompletableFuture<UUID> createTask(){
         System.out.println("hit");
-        return commandPublisher.Publish(
+        return commandPublisher.publish(
                 CreateTask.Command.builder()
                         .aggregateId(UUID.randomUUID())
                         .name("todo")
