@@ -1,0 +1,13 @@
+type Query{
+    testGet(id:String):Task
+    getTask(isComplete:Boolean):[Task]
+}
+
+type Mutation{
+    testCreate: String
+}
+
+type Task{
+    Id: String
+    Name: String
+}
