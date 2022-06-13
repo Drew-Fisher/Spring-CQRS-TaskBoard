@@ -11,11 +11,18 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 @Component
-public class CreateTask {
+public class UpdateTaskInfo {
+
+    private final ITaskWriteService.Service taskWriteService;
+
+    public UpdateTaskInfo(ITaskWriteService.Service taskWriteService) {
+        this.taskWriteService = taskWriteService;
+    }
 
     @Value @EqualsAndHashCode(callSuper = true)
     public static class Command extends ICommandPublisher.Command<UUID> {
         String name;
+
         @Builder
         public Command(UUID aggregateId, String name) {
             super(aggregateId);
@@ -23,22 +30,12 @@ public class CreateTask {
         }
     }
 
-    @Component
-    public class Handler{
-        private final ITaskWriteService.Service taskWriteService;
-
-        public Handler(ITaskWriteService.Service taskWriteService) {
-            this.taskWriteService = taskWriteService;
-        }
-
-
-        @CommandHandler
-        private UUID handel(Command command) throws Exception {
-            ITaskWriteService.CreateInput input = ITaskWriteService.CreateInput.builder()
-                    .aggregateId(command.getAggregateId())
-                    .name(command.getName())
-                    .build();
-            return taskWriteService.CreateTask(input);
-        }
+    @CommandHandler
+    public UUID updateCommand(Command command) throws Exception {
+        ITaskWriteService.UpdateInput input = ITaskWriteService.UpdateInput.builder()
+                .id(command.getAggregateId())
+                .name(command.getName())
+                .build();
+        return taskWriteService.UpdateTaskInfo(input);
     }
 }

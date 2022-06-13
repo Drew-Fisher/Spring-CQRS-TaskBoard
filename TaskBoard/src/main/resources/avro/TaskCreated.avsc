@@ -1,0 +1,26 @@
+{
+  "name": "TaskCreated",
+  "namespace": "avroSchema",
+  "type": "record",
+
+  "fields": [
+    {
+      "name": "taskId",
+      "type": {
+        "type": "string"
+      }
+    },
+    {
+      "name": "name",
+      "type": {
+        "type": "string"
+      }
+    },
+    {
+      "name": "createdOn",
+      "type": {
+        "type": "long"
+      }
+    }
+  ]
+}

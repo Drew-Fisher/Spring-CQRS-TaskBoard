@@ -1,0 +1,29 @@
+{
+  "name": "TaskInfoUpdated",
+  "namespace": "avroSchema",
+  "type": "record",
+
+  "fields": [
+    {
+      "name": "taskId",
+      "type": {
+        "avro.java.string": "String,",
+        "type": "string"
+      }
+    },
+    {
+      "name": "previousName",
+      "type": {
+        "avro.java.string": "String,",
+        "type": "string"
+      }
+    },
+    {
+      "name": "updatedName",
+      "type": {
+        "avro.java.string": "String,",
+        "type": "string"
+      }
+    }
+  ]
+}

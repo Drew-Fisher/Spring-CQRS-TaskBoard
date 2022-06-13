@@ -16,14 +16,14 @@ public class ITaskWriteService {
         UUID id;
         String name;
     }
-    @Value
-    public class CompleteTaskInput{
+    @Value @Builder
+    public static class CompleteTaskInput{
         UUID Id;
     }
 
     public interface Service{
         public UUID CreateTask(CreateInput input) throws Exception;
-        public UUID UpdateTask(UpdateInput input) throws Exception;
+        public UUID UpdateTaskInfo(UpdateInput input) throws Exception;
         public UUID CompleteTask(CompleteTaskInput input) throws Exception;
     }
 }

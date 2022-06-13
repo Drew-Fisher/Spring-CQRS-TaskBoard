@@ -1,8 +1,11 @@
 package io.taskboard.TaskBoard.command.service;
 
 
+import avroSchema.TaskCompleted;
+import avroSchema.TaskCreated;
+import avroSchema.TaskInfoUpdated;
 import io.taskboard.TaskBoard.command.dao.TaskEntity;
-import io.taskboard.TaskBoard.command.exceptions.TaskException;
+import io.taskboard.TaskBoard.command.features.publishoutbox.IOutBoxPublisher;
 import io.taskboard.TaskBoard.command.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
@@ -10,16 +13,24 @@ import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ *
+ */
 @Service
 public class TaskWriteService implements ITaskWriteService.Service{
+
     private final TaskRepository taskRepository;
 
-    public TaskWriteService(TaskRepository taskRepository) {
+    private final IOutBoxPublisher.Publisher outBoxPublisher;
+
+    public TaskWriteService(TaskRepository taskRepository, IOutBoxPublisher.Publisher outBoxPublisher) {
         this.taskRepository = taskRepository;
+        this.outBoxPublisher = outBoxPublisher;
     }
 
     @Override
     public UUID CreateTask(ITaskWriteService.CreateInput input) {
+
         TaskEntity task = TaskEntity.builder()
                 .Id(input.getAggregateId())
                 .name(input.getName())
@@ -29,40 +40,77 @@ public class TaskWriteService implements ITaskWriteService.Service{
 
         taskRepository.save(task);
 
-        System.out.println(task.getId());
+        TaskCreated outBoxPayload = TaskCreated.newBuilder()
+                .setTaskId(task.getId().toString())
+                .setName(task.getName())
+                .setCreatedOn(task.getCreationDate().getEpochSecond())
+                .build();
+
+        IOutBoxPublisher.Event outBoxEvent = IOutBoxPublisher.Event.builder()
+                .aggregateId(task.getId())
+                .aggregateType(IOutBoxPublisher.AGGREGATE_TYPES.Task.toString())
+                .eventType(IOutBoxPublisher.EVENT_TYPE.TaskCreated.toString())
+                .payload(outBoxPayload.toString())
+                .build();
+
+        outBoxPublisher.publish(outBoxEvent);
 
         return task.getId();
     }
 
     @Override
-    public UUID UpdateTask(ITaskWriteService.UpdateInput input) throws Exception {
+    public UUID UpdateTaskInfo(ITaskWriteService.UpdateInput input) throws Exception {
         Optional<TaskEntity> task = taskRepository.findById(input.getId());
 
-        if (task.get() == null){
-            throw new Exception();
-        }
+        TaskInfoUpdated outBoxPayload = TaskInfoUpdated.newBuilder()
+                .setTaskId(input.getId().toString())
+                .setPreviousName(task.get().getName())
+                .setUpdatedName(input.getName())
+                .build();
 
         task.get().updateName(input.getName());
 
         taskRepository.save(task.get());
 
+        IOutBoxPublisher.Event outBoxEvent = IOutBoxPublisher.Event.builder()
+                .aggregateId(input.getId())
+                .aggregateType(IOutBoxPublisher.AGGREGATE_TYPES.Task.toString())
+                .eventType(IOutBoxPublisher.EVENT_TYPE.TaskInfoUpdated.toString())
+                .payload(outBoxPayload.toString())
+                .build();
+
+        //Publish to outbox
+        outBoxPublisher.publish(outBoxEvent);
+
         //possible refetch must check
         return task.get().getId();
     }
 
+    //Set task to completed state and publish to outbox
     @Override
     public UUID CompleteTask(ITaskWriteService.CompleteTaskInput input) throws Exception {
 
         Optional<TaskEntity> task = taskRepository.findById(input.getId());
 
-        if (task.get() == null){
-            throw new Exception();
-        }
-
-        task.get().completeTask();
+        Instant completionTime = task.get().completeTask();
 
         taskRepository.save(task.get());
 
-        return task.get().getId();
+        TaskCompleted outBoxPayload = TaskCompleted.newBuilder()
+                .setTaskId(input.getId().toString())
+                .setIsCompleted(true)
+                .setCompletedOn(completionTime.getEpochSecond())
+                .build();
+
+        IOutBoxPublisher.Event outBoxEvent = IOutBoxPublisher.Event.builder()
+                .aggregateId(input.getId())
+                .aggregateType(IOutBoxPublisher.AGGREGATE_TYPES.Task.toString())
+                .eventType(IOutBoxPublisher.EVENT_TYPE.TaskCompleted.toString())
+                .payload(outBoxPayload.toString())
+                .build();
+
+        outBoxPublisher.publish(outBoxEvent);
+
+        return input.getId();
     }
 }

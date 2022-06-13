@@ -16,7 +16,6 @@ import java.util.UUID;
 @AllArgsConstructor @NoArgsConstructor @Builder
 public class TaskEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(
             name = "id",
             updatable = false
@@ -50,8 +49,9 @@ public class TaskEntity {
         this.name = name;
     }
 
-    public void completeTask(){
+    public Instant completeTask(){
         this.isDone = true;
         this.completionDate = Instant.now();
+        return this.completionDate;
     }
 }

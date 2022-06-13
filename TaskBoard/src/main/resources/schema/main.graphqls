@@ -1,13 +1,30 @@
 type Query{
-    testGet(id:String):Task
     getTask(isComplete:Boolean):[Task]
 }
 
 type Mutation{
-    testCreate: String
+    createTask(input:[CreateTaskInput]): ID!
+    updateTaskInfo(input:UpdateTaskInfoInput): ID!
+    completeTask(input:CompleteTaskInput): ID!
 }
 
 type Task{
-    Id: String
-    Name: String
+    id: ID!
+    name: String
+    isCompleted: String
+    creationDate: String
+    completedDate: String
+}
+
+input CreateTaskInput{
+    name:String
+}
+
+input UpdateTaskInfoInput{
+    id: ID!
+    name: String
+}
+
+input CompleteTaskInput{
+    id:ID!
 }
