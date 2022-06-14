@@ -3,6 +3,8 @@ package io.taskboard.TaskBoard.query.features.PublishQuery;
 import lombok.AllArgsConstructor;
 import lombok.Value;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -14,6 +16,6 @@ public class IQueryPublisher {
     }
 
     public interface Publisher{
-        public <T extends Query,S> CompletableFuture<S> publish(T Query);
+        public <T,S> List<S> publish(T query, Class<S> type);
     }
 }

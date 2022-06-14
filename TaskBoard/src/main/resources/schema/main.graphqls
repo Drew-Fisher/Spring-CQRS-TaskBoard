@@ -1,5 +1,6 @@
 type Query{
-    getTask(isComplete:Boolean):[Task]
+    getTask(page:Int, size:Int):[Task]
+    getTaskByIsComplete(page:Int, size:Int, isComplete:Boolean):[Task]
 }
 
 type Mutation{
@@ -11,7 +12,7 @@ type Mutation{
 type Task{
     id: ID!
     name: String
-    isCompleted: String
+    isCompleted: Boolean
     creationDate: String
     completedDate: String
 }
