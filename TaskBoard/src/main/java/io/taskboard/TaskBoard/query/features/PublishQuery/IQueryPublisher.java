@@ -16,6 +16,6 @@ public class IQueryPublisher {
     }
 
     public interface Publisher{
-        public <T,S> List<S> publish(T query, Class<S> type);
+        public <T,S> CompletableFuture<List<S>> publish(T query, Class<S> type);
     }
 }

@@ -23,21 +23,52 @@ public class TaskReadController {
         this.queryPublisher = queryPublisher;
     }
 
-    @DgsQuery(field = "getTaskByIsComplete")
-    public List<Task> getTask(@InputArgument int page, @InputArgument int size, @InputArgument Boolean isComplete) throws ExecutionException, InterruptedException {
+    @DgsQuery(field = "getTask")
+    public CompletableFuture<List<Task>> getTask(@InputArgument int page, @InputArgument int size){
+
         Pageable pageInput = PageRequest.of(page,size);
+
+        GetTaskByIsCompleted.Query query = GetTaskByIsCompleted.Query.builder()
+                .page(pageInput)
+                .build();
+
+        CompletableFuture<List<Task>> results = queryPublisher.publish(query,TaskEntity.class)
+                .thenApply(
+                        result -> result.stream().map(task -> Task.newBuilder()
+                                        .id(task.getId().toString())
+                                        .name(task.getName())
+                                        .isCompleted(task.isComplete())
+                                        .creationDate(task.getCreationDate())
+                                        .completedDate(task.getCompletionDate())
+                                        .build())
+                                .collect(Collectors.toList())
+                );
+
+        return results;
+    }
+
+    @DgsQuery(field = "getTaskByIsComplete")
+    public CompletableFuture<List<Task>> getTask(@InputArgument int page, @InputArgument int size, @InputArgument Boolean isComplete) throws ExecutionException, InterruptedException {
+
+        Pageable pageInput = PageRequest.of(page,size);
+
         GetTaskByIsCompleted.Query query = GetTaskByIsCompleted.Query.builder()
                 .isComplete(isComplete)
                 .page(pageInput)
                 .build();
 
-        List<TaskEntity> results = queryPublisher.publish(query,TaskEntity.class);
+        CompletableFuture<List<Task>> results = queryPublisher.publish(query,TaskEntity.class)
+                .thenApply(
+                        result -> result.stream().map(task -> Task.newBuilder()
+                                        .id(task.getId().toString())
+                                        .name(task.getName())
+                                        .isCompleted(task.isComplete())
+                                        .creationDate(task.getCreationDate())
+                                        .completedDate(task.getCompletionDate())
+                                        .build())
+                                .collect(Collectors.toList())
+                );
 
-        return results.stream().map(task -> Task.newBuilder()
-                .id(task.getId().toString())
-                .name(task.getName())
-                .isCompleted(task.isComplete())
-                .build())
-                .collect(Collectors.toList());
+        return results;
     }
 }

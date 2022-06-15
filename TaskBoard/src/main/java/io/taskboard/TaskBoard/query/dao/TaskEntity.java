@@ -21,7 +21,15 @@ public class TaskEntity {
     )
     private String Name;
     @Column(
-            value = "is_done"
+            value = "is_complete"
     )
     private boolean isComplete;
+    @Column(
+            value = "creation_date"
+    )
+    private String creationDate;
+    @Column(
+            value = "completion_date"
+    )
+    private String completionDate;
 }

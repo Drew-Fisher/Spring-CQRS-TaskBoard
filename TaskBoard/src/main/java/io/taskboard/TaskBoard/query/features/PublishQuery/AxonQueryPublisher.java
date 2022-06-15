@@ -23,13 +23,7 @@ public class AxonQueryPublisher implements IQueryPublisher.Publisher{
 
 
     @Override
-    public <T, S> List<S> publish(T query, Class<S> type) {
-        try {
-            return queryGateway.query(query, ResponseTypes.multipleInstancesOf(type)).get();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (ExecutionException e) {
-            throw new RuntimeException(e);
-        }
+    public <T, S> CompletableFuture<List<S>> publish(T query, Class<S> type) {
+            return queryGateway.query(query, ResponseTypes.multipleInstancesOf(type));
     }
 }

@@ -35,7 +35,7 @@ public class TaskWriteService implements ITaskWriteService.Service{
                 .Id(input.getAggregateId())
                 .name(input.getName())
                 .creationDate(Instant.now())
-                .isDone(false)
+                .isComplete(false)
                 .build();
 
         taskRepository.save(task);

@@ -34,10 +34,10 @@ public class TaskEntity {
     private Instant completionDate;
 
     @Column(
-            name = "is_done",
+            name = "is_complete",
             nullable = false
     )
-    private Boolean isDone;
+    private Boolean isComplete;
 
     @Column(
             name = "name",
@@ -50,7 +50,7 @@ public class TaskEntity {
     }
 
     public Instant completeTask(){
-        this.isDone = true;
+        this.isComplete = true;
         this.completionDate = Instant.now();
         return this.completionDate;
     }
