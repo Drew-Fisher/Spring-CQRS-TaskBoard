@@ -1,0 +1,15 @@
+{
+  "name": "TaskCompleted",
+  "namespace": "avroSchema",
+  "type": "record",
+
+  "fields": [
+    {
+      "name": "taskId",
+      "type": {
+        "avro.java.string": "String,",
+        "type": "string"
+      }
+    }
+  ]
+}

@@ -7,6 +7,8 @@ import avroSchema.TaskInfoUpdated;
 import io.taskboard.TaskBoard.command.dao.TaskEntity;
 import io.taskboard.TaskBoard.command.features.publishoutbox.IOutBoxPublisher;
 import io.taskboard.TaskBoard.command.repository.TaskRepository;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -59,7 +61,7 @@ public class TaskWriteService implements ITaskWriteService.Service{
     }
 
     @Override
-    public UUID UpdateTaskInfo(ITaskWriteService.UpdateInput input) throws Exception {
+    public Void UpdateTaskInfo(ITaskWriteService.UpdateInput input) throws Exception {
         Optional<TaskEntity> task = taskRepository.findById(input.getId());
 
         TaskInfoUpdated outBoxPayload = TaskInfoUpdated.newBuilder()
@@ -82,13 +84,12 @@ public class TaskWriteService implements ITaskWriteService.Service{
         //Publish to outbox
         outBoxPublisher.publish(outBoxEvent);
 
-        //possible refetch must check
-        return task.get().getId();
+        return null;
     }
 
     //Set task to completed state and publish to outbox
     @Override
-    public UUID CompleteTask(ITaskWriteService.CompleteTaskInput input) throws Exception {
+    public Void CompleteTask(ITaskWriteService.CompleteTaskInput input) throws Exception {
 
         Optional<TaskEntity> task = taskRepository.findById(input.getId());
 
@@ -111,6 +112,6 @@ public class TaskWriteService implements ITaskWriteService.Service{
 
         outBoxPublisher.publish(outBoxEvent);
 
-        return input.getId();
+        return null;
     }
 }

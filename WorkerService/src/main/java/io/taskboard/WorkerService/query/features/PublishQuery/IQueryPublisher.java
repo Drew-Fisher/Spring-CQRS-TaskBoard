@@ -1,4 +1,4 @@
-package io.taskboard.TaskBoard.query.features.PublishQuery;
+package io.taskboard.WorkerService.query.features.PublishQuery;
 
 import lombok.AllArgsConstructor;
 import lombok.Value;

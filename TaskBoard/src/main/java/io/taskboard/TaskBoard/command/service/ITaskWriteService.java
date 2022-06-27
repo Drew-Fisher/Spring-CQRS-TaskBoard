@@ -22,8 +22,8 @@ public class ITaskWriteService {
     }
 
     public interface Service{
-        public UUID CreateTask(CreateInput input) throws Exception;
-        public UUID UpdateTaskInfo(UpdateInput input) throws Exception;
-        public UUID CompleteTask(CompleteTaskInput input) throws Exception;
+        UUID CreateTask(CreateInput input) throws Exception;
+        Void UpdateTaskInfo(UpdateInput input) throws Exception;
+        Void CompleteTask(CompleteTaskInput input) throws Exception;
     }
 }

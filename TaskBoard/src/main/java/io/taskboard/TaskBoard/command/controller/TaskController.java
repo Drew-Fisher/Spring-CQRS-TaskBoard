@@ -32,7 +32,7 @@ public class TaskController {
     }
 
     @DgsMutation(field = "updateTaskInfo")
-    public CompletableFuture<UUID> updateTask(@InputArgument UpdateTaskInfoInput input){
+    public CompletableFuture<Void> updateTask(@InputArgument UpdateTaskInfoInput input){
         UpdateTaskInfo.Command command = UpdateTaskInfo.Command.builder()
                 .aggregateId(UUID.fromString(input.getId()))
                 .name(input.getName())
@@ -41,7 +41,7 @@ public class TaskController {
     }
 
     @DgsMutation(field = "completeTask")
-    public CompletableFuture<UUID> completeTask(@InputArgument CompleteTaskInput input){
+    public CompletableFuture<Void> completeTask(@InputArgument CompleteTaskInput input){
         CompleteTask.Command command = CompleteTask.Command.builder()
                 .aggregateId(UUID.fromString(input.getId()))
                 .build();

@@ -1,0 +1,23 @@
+type Query{
+    workers(name:String,id:ID!):[Worker]
+}
+
+type Mutation{
+    createWorker(input:Create!):[ID!]
+    updateWorker(input:Update!):[String]
+}
+
+type Worker @Key(fields: "id"){
+    id: ID!
+    name: String!
+}
+
+input Create{
+    name:String!
+}
+
+input Update{
+    id:ID!
+    name:String!
+}
+

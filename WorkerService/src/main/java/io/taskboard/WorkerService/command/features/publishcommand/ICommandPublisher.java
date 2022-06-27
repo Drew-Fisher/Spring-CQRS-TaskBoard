@@ -1,4 +1,4 @@
-package io.taskboard.TaskBoard.command.features.publishcommand;
+package io.taskboard.WorkerService.command.features.publishcommand;
 
 
 import lombok.AllArgsConstructor;
@@ -13,6 +13,6 @@ public class ICommandPublisher {
     }
 
     public interface Publisher{
-        <T extends Command,S> CompletableFuture<S> publish(T command);
+        public<T extends Command,S> CompletableFuture<S> publish(T command);
     }
 }
