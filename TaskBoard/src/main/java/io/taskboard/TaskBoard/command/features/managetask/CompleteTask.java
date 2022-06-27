@@ -31,7 +31,7 @@ public class CompleteTask {
         }
 
         @CommandHandler
-        public Void handle(Command command) throws Exception {
+        public UUID handle(Command command) throws Exception {
             ITaskWriteService.CompleteTaskInput input = ITaskWriteService.CompleteTaskInput.builder()
                     .Id(command.getAggregateId())
                     .build();

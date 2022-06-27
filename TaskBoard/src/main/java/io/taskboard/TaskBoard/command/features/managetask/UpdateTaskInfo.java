@@ -31,7 +31,7 @@ public class UpdateTaskInfo {
     }
 
     @CommandHandler
-    public Void updateCommand(Command command) throws Exception {
+    public UUID updateCommand(Command command) throws Exception {
         ITaskWriteService.UpdateInput input = ITaskWriteService.UpdateInput.builder()
                 .id(command.getAggregateId())
                 .name(command.getName())

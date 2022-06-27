@@ -1,11 +1,15 @@
 package io.taskboard.TaskBoard.query.features.PublishQuery;
 
+import io.taskboard.TaskBoard.query.dao.TaskEntity;
+import org.axonframework.messaging.responsetypes.ResponseType;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.*;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @Component
 public class AxonQueryPublisher implements IQueryPublisher.Publisher{

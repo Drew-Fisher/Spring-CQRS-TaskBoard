@@ -13,6 +13,6 @@ public class ICommandPublisher {
     }
 
     public interface Publisher{
-        <T extends Command,S> CompletableFuture<S> publish(T command);
+        public<T extends Command,S> CompletableFuture<S> publish(T command);
     }
 }

@@ -3,6 +3,7 @@ package io.taskboard.TaskBoard.query.features.PublishQuery;
 import lombok.AllArgsConstructor;
 import lombok.Value;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
