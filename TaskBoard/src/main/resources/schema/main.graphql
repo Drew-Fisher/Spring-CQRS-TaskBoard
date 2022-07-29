@@ -1,0 +1,37 @@
+type Query{
+    Task(page:Int!, size:Int!):[Task]
+    CompleteTask(page:Int!, size:Int!, isComplete:Boolean!, worker:ID):[Task]
+    AssignedTask(page:Int!, size:Int!, worker:ID!):[Task]
+}
+
+type Mutation{
+    createTask(input:[CreateTaskInput]): ID!
+    updateTaskInfo(input:UpdateTaskInfoInput): ID!
+    completeTask(input:CompleteTaskInput): ID!
+    assignTask(input:AssignTaskInput):ID!
+}
+
+type Task @key(fields: "id"){
+    id: ID!
+    name: String
+    isCompleted: Boolean
+    creationDate: String
+    completedDate: String
+}
+
+input AssignTaskInput{
+    id:ID!
+}
+
+input CreateTaskInput{
+    name:String
+}
+
+input UpdateTaskInfoInput{
+    id: ID!
+    name: String
+}
+
+input CompleteTaskInput{
+    id:ID!
+}

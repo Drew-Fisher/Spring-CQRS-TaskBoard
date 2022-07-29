@@ -1,14 +1,25 @@
 graphql:
   servlet:
     exception-handlers-enabled: true
+
 spring:
   datasource:
+    platform: postgres
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: postgres
+    driverClassName: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: create
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+  cloud:
+    gcp:
+      project-id: PubSubProducts
+      credentials:
+        location: file:src/main/resources/key.json
+pubsub:
+  subscription:
+    projects/pubsubproducts/subscriptions/Products-sub

@@ -5,9 +5,10 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
+
 import java.util.UUID;
 @Table(
-        name = "task_table"
+        "task_table"
 )
 @Getter
 public class TaskEntity {

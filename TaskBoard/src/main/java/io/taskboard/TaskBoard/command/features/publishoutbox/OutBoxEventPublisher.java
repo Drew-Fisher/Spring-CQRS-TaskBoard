@@ -1,8 +1,6 @@
 package io.taskboard.TaskBoard.command.features.publishoutbox;
 
 import io.taskboard.TaskBoard.command.dao.OutBoxEntity;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -47,9 +45,6 @@ public class OutBoxEventPublisher{
         //EventListener for IOutBoxEventPublisher.Event
         @EventListener
         public void handel(IOutBoxPublisher.Event event){
-
-            ObjectMapper mapper = new ObjectMapper();
-            JsonNode node = mapper.convertValue(event.getPayload(),JsonNode.class);
 
             //Map to entity object via builder
             OutBoxEntity entity = OutBoxEntity.builder()

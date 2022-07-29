@@ -1,0 +1,22 @@
+﻿type Query @extends {
+  workers(name: String, id: ID!): [Worker]
+}
+
+type Mutation @extends {
+  createWorker(input: Create!): ID!
+  updateWorker(input: Update!): [String]
+}
+
+type Worker @key(fields: "id") {
+  id: ID
+  name: String!
+}
+
+input Create {
+  name: String!
+}
+
+input Update {
+  id: ID!
+  name: String!
+}

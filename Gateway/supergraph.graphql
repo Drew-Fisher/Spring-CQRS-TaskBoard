@@ -1,0 +1,124 @@
+schema
+  @link(url: "https://specs.apollo.dev/link/v1.0")
+  @link(url: "https://specs.apollo.dev/join/v0.2", for: EXECUTION) {
+  query: Query
+  mutation: Mutation
+}
+
+directive @join__field(
+  graph: join__Graph!
+  requires: join__FieldSet
+  provides: join__FieldSet
+  type: String
+  external: Boolean
+  override: String
+  usedOverridden: Boolean
+) repeatable on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
+
+directive @join__graph(name: String!, url: String!) on ENUM_VALUE
+
+directive @join__implements(
+  graph: join__Graph!
+  interface: String!
+) repeatable on OBJECT | INTERFACE
+
+directive @join__type(
+  graph: join__Graph!
+  key: join__FieldSet
+  extension: Boolean! = false
+  resolvable: Boolean! = true
+) repeatable on OBJECT | INTERFACE | UNION | ENUM | INPUT_OBJECT | SCALAR
+
+directive @link(
+  url: String
+  as: String
+  for: link__Purpose
+  import: [link__Import]
+) repeatable on SCHEMA
+
+input AssignTaskInput @join__type(graph: WORKER) {
+  id: ID!
+}
+
+input CompleteTaskInput @join__type(graph: WORKER) {
+  id: ID!
+}
+
+input Create @join__type(graph: TASKBOARD) {
+  name: String!
+}
+
+input CreateTaskInput @join__type(graph: WORKER) {
+  name: String
+}
+
+scalar join__FieldSet
+
+enum join__Graph {
+  TASKBOARD
+    @join__graph(name: "taskboard", url: "http://localhost:8080/graphql")
+  WORKER @join__graph(name: "worker", url: "http://localhost:8090/graphql")
+}
+
+scalar link__Import
+
+enum link__Purpose {
+  """
+  `SECURITY` features provide metadata necessary to securely resolve fields.
+  """
+  SECURITY
+
+  """
+  `EXECUTION` features provide metadata necessary for operation execution.
+  """
+  EXECUTION
+}
+
+type Mutation @join__type(graph: TASKBOARD) @join__type(graph: WORKER) {
+  createWorker(input: Create!): ID! @join__field(graph: TASKBOARD)
+  updateWorker(input: Update!): [String] @join__field(graph: TASKBOARD)
+  createTask(input: [CreateTaskInput]): ID! @join__field(graph: WORKER)
+  updateTaskInfo(input: UpdateTaskInfoInput): ID! @join__field(graph: WORKER)
+  completeTask(input: CompleteTaskInput): ID! @join__field(graph: WORKER)
+  assignTask(input: AssignTaskInput): ID! @join__field(graph: WORKER)
+}
+
+type Query @join__type(graph: TASKBOARD) @join__type(graph: WORKER) {
+  workers(name: String, id: ID!): [Worker] @join__field(graph: TASKBOARD)
+  Task(page: Int!, size: Int!): [Task] @join__field(graph: WORKER)
+  CompleteTask(
+    page: Int!
+    size: Int!
+    isComplete: Boolean!
+    worker: ID
+  ): [Task] @join__field(graph: WORKER)
+  AssignedTask(page: Int!, size: Int!, worker: ID!): [Task]
+    @join__field(graph: WORKER)
+}
+
+type Task @join__type(graph: WORKER, key: "id") {
+  id: ID!
+  name: String
+  isCompleted: Boolean
+  creationDate: String
+  completedDate: String
+  assignedTo: Worker
+}
+
+input Update @join__type(graph: TASKBOARD) {
+  id: ID!
+  name: String!
+}
+
+input UpdateTaskInfoInput @join__type(graph: WORKER) {
+  id: ID!
+  name: String
+}
+
+type Worker
+  @join__type(graph: TASKBOARD, key: "id")
+  @join__type(graph: WORKER, key: "id", extension: true) {
+  id: ID
+  name: String! @join__field(graph: TASKBOARD)
+  isAssignable: Boolean @join__field(graph: WORKER)
+}

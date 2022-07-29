@@ -2,6 +2,7 @@ package io.taskboard.WorkerService.command.dao;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
@@ -11,8 +12,9 @@ import javax.persistence.Table;
 import java.util.UUID;
 
 @Entity @Table(
-        name = "worker_table"
+        name = "worker_table_2"
 )
+@Getter
 @AllArgsConstructor @NoArgsConstructor @Builder
 public class WorkerEntity {
     @Id

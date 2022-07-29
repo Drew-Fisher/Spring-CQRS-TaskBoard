@@ -47,7 +47,7 @@ public class TaskReadController {
         return results;
     }
 
-    @DgsQuery(field = "getTaskByIsComplete")
+    @DgsQuery(field = "CompleteTask")
     public CompletableFuture<List<Task>> getTask(@InputArgument int page, @InputArgument int size, @InputArgument Boolean isComplete) throws ExecutionException, InterruptedException {
 
         Pageable pageInput = PageRequest.of(page,size);

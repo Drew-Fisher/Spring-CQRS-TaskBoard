@@ -43,6 +43,10 @@
 			<groupId>com.google.cloud</groupId>
 			<artifactId>spring-cloud-gcp-starter-pubsub</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.integration</groupId>
+			<artifactId>spring-integration-core</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>org.postgresql</groupId>
@@ -93,7 +97,7 @@
 				<groupId>com.netflix.graphql.dgs</groupId>
 				<artifactId>graphql-dgs-platform-dependencies</artifactId>
 				<!-- The DGS BOM/platform dependency. This is the only place you set version of DGS -->
-				<version>5.0.2</version>
+				<version>5.0.4</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -110,6 +114,10 @@
 				<version>${spring-cloud-gcp.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.google.protobuf</groupId>
+				<artifactId>protobuf-java</artifactId>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -129,7 +137,7 @@
 				</executions>
 				<configuration>
 					<schemaPaths>
-						<param>src/main/resources/schema/main.graphqls</param>
+						<param>src/main/resources/schema/main.graphql</param>
 					</schemaPaths>
 					<packageName>com.acme.TaskBoard.generated</packageName>
 				</configuration>
@@ -167,7 +175,7 @@
 							<goal>idl-protocol</goal>
 						</goals>
 						<configuration>
-							<sourceDirectory>src/main/resources/avro/</sourceDirectory>
+							<sourceDirectory>src/main/avro/</sourceDirectory>
 							<outputDirectory>${project.build.directory}/generated-sources</outputDirectory>
 						</configuration>
 					</execution>
@@ -185,6 +193,23 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.xolstice.maven.plugins</groupId>
+				<artifactId>protobuf-maven-plugin</artifactId>
+				<version>0.6.1</version>
+				<configuration>
+					<protocExecutable>G:/Show_Case_Projects/Utils/bin/protoc</protocExecutable>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+							<goal>test-compile</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

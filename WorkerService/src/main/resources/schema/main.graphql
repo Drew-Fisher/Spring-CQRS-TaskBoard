@@ -1,0 +1,33 @@
+type Query @extends{
+    getAllWorker(page:Page):[Worker]
+    getAllWorkerByName(page:Page):[Worker]
+}
+
+type Mutation @extends{
+    createWorker(input:Create!):ID!
+    updateWorker(input:Update!):[String]
+}
+
+type Worker @key(fields: "id"){
+    id: ID!
+    name: String!
+}
+
+type Task @key(fields: "id") @extends{
+    AssignedTo: Worker
+}
+
+input Page{
+    page:Int!
+    size:Int!
+}
+
+input Create{
+    name:String!
+}
+
+input Update{
+    id:ID!
+    name:String!
+}
+

@@ -1,0 +1,15 @@
+{
+  "name": "WorkerConfirmed",
+  "namespace": "avroSchema",
+  "type": "record",
+
+  "fields": [
+    {
+      "name": "workerId",
+      "type": {
+        "avro.java.string": "String,",
+        "type": "string"
+      }
+    }
+  ]
+}

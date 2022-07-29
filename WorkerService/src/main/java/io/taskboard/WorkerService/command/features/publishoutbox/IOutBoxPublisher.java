@@ -10,20 +10,22 @@ import java.util.UUID;
 public class IOutBoxPublisher {
 
     public enum AGGREGATE_TYPES{
-        Task
+        Task,
+        WORKER
     }
 
     public enum EVENT_TYPE{
         TaskCreated,
         TaskInfoUpdated,
-        TaskCompleted
+        TaskCompleted,
+        WORKERCREATED
     }
     @Value @Builder
     public static class Event<T>{
         UUID aggregateId;
         String aggregateType;
         String eventType;
-        T payload;
+        String payload;
     }
 
     @Component

@@ -7,8 +7,6 @@ import avroSchema.TaskInfoUpdated;
 import io.taskboard.TaskBoard.command.dao.TaskEntity;
 import io.taskboard.TaskBoard.command.features.publishoutbox.IOutBoxPublisher;
 import io.taskboard.TaskBoard.command.repository.TaskRepository;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;

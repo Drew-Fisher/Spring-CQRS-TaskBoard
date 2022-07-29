@@ -1,0 +1,4 @@
+server:
+  introspection: true
+  cors:
+    allow_any_origin: true
