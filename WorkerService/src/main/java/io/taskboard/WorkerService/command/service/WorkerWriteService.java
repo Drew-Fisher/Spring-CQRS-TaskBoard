@@ -1,16 +1,11 @@
 package io.taskboard.WorkerService.command.service;
 
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import io.taskboard.WorkerService.command.dao.WorkerEntity;
 import io.taskboard.WorkerService.command.features.publishoutbox.IOutBoxPublisher;
 import io.taskboard.WorkerService.command.repository.WorkerRepository;
 import io.worker.generated.WorkerCreatedOuterClass;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.UUID;
 
 @Service
@@ -44,7 +39,7 @@ public class WorkerWriteService implements IWorkerWriteService.Service{
                     .aggregateId(worker.getId())
                     .aggregateType(IOutBoxPublisher.AGGREGATE_TYPES.WORKER.toString())
                     .eventType(IOutBoxPublisher.EVENT_TYPE.WORKERCREATED.toString())
-                    .payload(workerEvent.toByteString().toStringUtf8())
+                    .payload(workerEvent.toString())
                     .build();
 
         outBoxPublisher.publish(outBoxEvent);

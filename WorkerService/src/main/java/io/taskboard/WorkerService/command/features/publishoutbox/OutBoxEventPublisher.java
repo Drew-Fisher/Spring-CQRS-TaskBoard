@@ -1,15 +1,11 @@
 package io.taskboard.WorkerService.command.features.publishoutbox;
 
-import avroSchema.WorkerCreated;
 import io.taskboard.WorkerService.command.dao.OutBoxEntity;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-import java.nio.ByteBuffer;
 
 /**
  * parent class for nesting
@@ -65,8 +61,6 @@ public class OutBoxEventPublisher{
 
             //save to table
             outBoxRepository.save(entity);
-
-            System.out.println(outBoxRepository.findById(entity.getId()).get().getPayload());
 
             //delete from table to prevent table growth
             outBoxRepository.delete(entity);

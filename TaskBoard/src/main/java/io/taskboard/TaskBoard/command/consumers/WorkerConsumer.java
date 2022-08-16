@@ -5,15 +5,7 @@ import com.google.cloud.spring.pubsub.integration.AckMode;
 import com.google.cloud.spring.pubsub.integration.inbound.PubSubInboundChannelAdapter;
 import com.google.cloud.spring.pubsub.support.BasicAcknowledgeablePubsubMessage;
 import com.google.cloud.spring.pubsub.support.GcpPubSubHeaders;
-import com.google.gson.Gson;
-import io.taskboard.TaskBoard.command.features.manageworker.CreateWorker;
 import io.taskboard.TaskBoard.command.features.publishevent.IEventPublisher;
-import lombok.Builder;
-import lombok.Value;
-import org.apache.avro.io.DatumReader;
-import org.apache.avro.io.Decoder;
-import org.apache.avro.io.DecoderFactory;
-import org.apache.avro.specific.SpecificDatumReader;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.integration.annotation.ServiceActivator;
@@ -21,10 +13,6 @@ import org.springframework.integration.channel.PublishSubscribeChannel;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.util.UUID;
 
 @Component
 public class WorkerConsumer {

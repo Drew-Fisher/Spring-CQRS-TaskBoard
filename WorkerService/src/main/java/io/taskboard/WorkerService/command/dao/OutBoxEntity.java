@@ -48,7 +48,6 @@ public class OutBoxEntity<T> {
     @Column(
             name = "payload",
             nullable = false
-//            columnDefinition = "jsonb"
     )
     private String payload;
 

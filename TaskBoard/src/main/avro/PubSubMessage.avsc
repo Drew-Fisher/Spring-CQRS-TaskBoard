@@ -1,0 +1,43 @@
+{
+  "name": "PubSubMessage",
+  "namespace": "avroSchema",
+  "type": "record",
+
+  "fields": [
+    {
+      "name": "id",
+      "type": {
+        "avro.java.string": "String,",
+        "type": "string"
+      }
+    },
+    {
+      "name": "aggregateType",
+      "type": {
+        "avro.java.string": "String,",
+        "type": "string"
+      }
+    },
+    {
+      "name": "aggregateId",
+      "type": {
+        "avro.java.string": "String,",
+        "type": "string"
+      }
+    },
+    {
+      "name": "type",
+      "type": {
+        "avro.java.string": "String,",
+        "type": "string"
+      }
+    },
+    {
+      "name": "payload",
+      "type": {
+        "avro.java.string": "String,",
+        "type": "string"
+      }
+    }
+  ]
+}
